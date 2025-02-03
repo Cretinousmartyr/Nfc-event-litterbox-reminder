@@ -1,73 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Add Calendar Event</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    button { font-size: 16px; padding: 10px 20px; }
-  </style>
-</head>
-<body>
-  <h1>Add Calendar Event</h1>
-  <p>Click the button below to download a reminder to clean Logan's bedroom litterbox, scheduled for 48 hours from now.</p>
-  <button id="downloadBtn">Download Event</button>
 
-  <script>
-    function downloadEvent() {
-      // Get current date/time and add 48 hours
-      const now = new Date();
-      const eventStart = new Date(now.getTime() + 48 * 60 * 60 * 1000);
-
-      // Set event end time (1 hour after start)
-      const eventEnd = new Date(eventStart.getTime() + 60 * 60 * 1000);
-
-      // Format dates for ICS (YYYYMMDDTHHMMSSZ)
-      const formatDate = (date) => {
-        const pad = (num) => (num < 10 ? '0' + num : num);
-        return date.getUTCFullYear() +
-               pad(date.getUTCMonth() + 1) +
-               pad(date.getUTCDate()) + 'T' +
-               pad(date.getUTCHours()) +
-               pad(date.getUTCMinutes()) +
-               pad(date.getUTCSeconds()) + 'Z';
-      };
-
-      const icsContent = [
-        'BEGIN:VCALENDAR',
-        'VERSION:2.0',
-        'PRODID:-//Your Organization//Your App//EN',
-        'BEGIN:VEVENT',
-        'UID:' + Date.now() + '@yourdomain.com',
-        'DTSTAMP:' + formatDate(now),
-        'DTSTART:' + formatDate(eventStart),
-        'DTEND:' + formatDate(eventEnd),
-        'SUMMARY:Clean Logan\'s Bedroom Litterbox',
-        'DESCRIPTION:Reminder to clean Logan\'s bedroom litterbox.',
-        'END:VEVENT',
-        'END:VCALENDAR'
-      ].join('\r\n');
-
-      // Create a Blob and generate a download link
-      const blob = new Blob([icsContent], { type: 'text/calendar' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'CleanLogansBedroomLitterbox.ics';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    // Trigger download when the button is clicked
-    document.getElementById('downloadBtn').addEventListener('click', downloadEvent);
-
-    // Attempt to trigger download automatically on page load
-    window.addEventListener('load', () => {
-      downloadEvent();
-    });
-  </script>
-</body>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <title>Add Calendar Event</title>  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <style>  
+    body { font-family: Arial, sans-serif; padding: 20px; }  
+    button { font-size: 16px; padding: 10px 20px; }  
+  </style>  
+</head>  
+<body>  
+  <h1>Add Calendar Event</h1>  
+  <p>Click the button below to download a reminder to clean Logan's bedroom litterbox, scheduled for 48 hours from now.</p>  
+  <button id="downloadBtn">Download Event</button>    <script>  
+    document.getElementById('downloadBtn').addEventListener('click', function() {  
+      // Get current date/time and add 48 hours  
+      const now = new Date();  
+      const eventStart = new Date(now.getTime() + 48 * 60 * 60 * 1000);  
+  
+      // Set event end time (1 hour after start)  
+      const eventEnd = new Date(eventStart.getTime() + 60 * 60 * 1000);  
+  
+      // Format dates for ICS (YYYYMMDDTHHMMSSZ)  
+      const formatDate = (date) => {  
+        const pad = (num) => (num < 10 ? '0' + num : num);  
+        return date.getUTCFullYear() +  
+               pad(date.getUTCMonth() + 1) +  
+               pad(date.getUTCDate()) + 'T' +  
+               pad(date.getUTCHours()) +  
+               pad(date.getUTCMinutes()) +  
+               pad(date.getUTCSeconds()) + 'Z';  
+      };  
+  
+      const icsContent = [  
+        'BEGIN:VCALENDAR',  
+        'VERSION:2.0',  
+        'PRODID:-//Your Organization//Your App//EN',  
+        'BEGIN:VEVENT',  
+        'UID:' + Date.now() + '@yourdomain.com',  
+        'DTSTAMP:' + formatDate(now),  
+        'DTSTART:' + formatDate(eventStart),  
+        'DTEND:' + formatDate(eventEnd),  
+        'SUMMARY:Clean Logan\'s Bedroom Litterbox',  
+        'DESCRIPTION:Reminder to clean Logan\'s bedroom litterbox.',  
+        'END:VEVENT',  
+        'END:VCALENDAR'  
+      ].join('\r\n');  
+  
+      // Create a Blob and generate a download link  
+      const blob = new Blob([icsContent], { type: 'text/calendar' });  
+      const url = URL.createObjectURL(blob);  
+      const a = document.createElement('a');  
+      a.href = url;  
+      a.download = 'CleanLogansBedroomLitterbox.ics';  
+      a.style.display = 'none';  
+      document.body.appendChild(a);  
+      a.click();  
+      document.body.removeChild(a);  
+      URL.revokeObjectURL(url);  
+    });  
+  </script>  </body>  
 </html>
