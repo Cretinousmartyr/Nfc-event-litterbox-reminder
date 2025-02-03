@@ -15,7 +15,7 @@
   <button id="downloadBtn">Download Event</button>
 
   <script>
-    document.getElementById('downloadBtn').addEventListener('click', function() {
+    function downloadEvent() {
       // Get current date/time and add 48 hours
       const now = new Date();
       const eventStart = new Date(now.getTime() + 48 * 60 * 60 * 1000);
@@ -55,11 +55,18 @@
       const a = document.createElement('a');
       a.href = url;
       a.download = 'CleanLogansBedroomLitterbox.ics';
-      a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+    }
+
+    // Trigger download when the button is clicked
+    document.getElementById('downloadBtn').addEventListener('click', downloadEvent);
+
+    // Attempt to trigger download automatically on page load
+    window.addEventListener('load', () => {
+      downloadEvent();
     });
   </script>
 </body>
